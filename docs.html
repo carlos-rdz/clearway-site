@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Docs — Clearway Agents API</title>
+<meta name="description" content="Clearway Agents API reference: authenticate, POST /v1/clear to get a determination, read the catalog, subscribe to delta webhooks, and call clear() over MCP. Every determination is cited and reproducible." />
+<link rel="canonical" href="https://clearwayagents.ai/docs.html" />
+<meta property="og:title" content="Docs — Clearway Agents API" />
+<meta property="og:description" content="Clearance is a tool call. Authenticate, POST /v1/clear, get a cited determination." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://clearwayagents.ai/docs.html" />
+<meta property="og:image" content="https://clearwayagents.ai/og.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%238b8cff'/><rect x='9' y='9' width='14' height='14' rx='4' fill='%2334d39a'/></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav><div class="wrap nav">
+  <a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a>
+  <div class="navlinks">
+    <a href="product.html">Product</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="security.html">Security</a>
+    <a href="docs.html">Docs</a>
+    <a href="company.html">Company</a>
+    <a href="pricing.html">Pricing</a>
+  </div>
+  <a class="btn primary" href="mailto:hello@clearwayagents.ai">Book a demo</a>
+</div></nav>
+
+<header class="wrap pagehead">
+  <div class="crumbs"><a href="index.html">Home</a> / Docs</div>
+  <div class="kicker">API reference</div>
+  <h1>Clearance is a tool call.</h1>
+  <p class="lead">Send a product profile, get back a determination — auto-cleared, or routed with exactly what's
+    missing — every component cited to its controlling clause. Available over HTTP and as an MCP tool.</p>
+  <p class="disc" style="margin-top:14px;border:0;padding:0">Preview API. Schemas may change before general availability; we'll version and announce breaking changes.</p>
+</header>
+
+<section class="band"><div class="wrap">
+  <div class="prose">
+    <h2>Authentication</h2>
+    <p>All requests send an API key over TLS. Keys are tenant-scoped and least-privilege
+      (<code>clear</code> / <code>construct</code> / <code>ratify</code> / <code>admin</code>), hashed at rest,
+      and support rotation and expiry. An admin key mints and rotates the rest.</p>
+    <pre><span class="k">X-API-Key:</span> cw_live_…
+<span class="k">Content-Type:</span> application/json</pre>
+
+    <h2>Clear a product</h2>
+    <p><code>POST /v1/clear</code> — decompose a product, map each component to its controlling obligation and an approved control, and return a determination.</p>
+    <pre><span class="k">POST</span> https://api.clearwayagents.ai/v1/clear
+{
+  <span class="n">"product"</span>: <span class="s">"Cross-border BNPL · US+MX"</span>,
+  <span class="n">"jurisdictions"</span>: [<span class="s">"US"</span>, <span class="s">"MX"</span>],
+  <span class="n">"components"</span>: [
+    { <span class="n">"ref"</span>: <span class="s">"Identity / CIP"</span>, <span class="n">"attributes"</span>: { <span class="n">"idv"</span>: <span class="s">"doc+selfie"</span> } },
+    { <span class="n">"ref"</span>: <span class="s">"AI underwriting"</span>, <span class="n">"attributes"</span>: { <span class="n">"model"</span>: <span class="s">"in-house"</span> } },
+    { <span class="n">"ref"</span>: <span class="s">"MX remittance"</span>, <span class="n">"attributes"</span>: { <span class="n">"corridor"</span>: <span class="s">"US-MX"</span> } }
+  ]
+}</pre>
+    <pre><span class="c">→ 200 OK</span>
+{
+  <span class="n">"id"</span>: <span class="s">"clr_3a9f…"</span>,
+  <span class="n">"decision"</span>: <span class="s">"DELTA_REVIEW"</span>,
+  <span class="n">"catalog_version"</span>: <span class="s">"2026-06-15"</span>,
+  <span class="n">"cleared"</span>: [
+    { <span class="n">"ref"</span>: <span class="s">"Identity / CIP"</span>, <span class="n">"control"</span>: <span class="s">"kyc-standard"</span>, <span class="n">"citation"</span>: <span class="s">"31 CFR 1022.220"</span> }
+  ],
+  <span class="n">"routed"</span>: [
+    { <span class="n">"ref"</span>: <span class="s">"AI underwriting"</span>, <span class="n">"to"</span>: <span class="s">"Model Risk"</span>,
+      <span class="n">"reason"</span>: <span class="s">"ECOA §1002.4 + SR 11-7 — no approved control"</span> },
+    { <span class="n">"ref"</span>: <span class="s">"MX remittance"</span>, <span class="n">"to"</span>: <span class="s">"Legal"</span>,
+      <span class="n">"reason"</span>: <span class="s">"Reg E §1005.30 + state MTL — corridor not cleared"</span> }
+  ]
+}</pre>
+
+    <h2>Read the catalog</h2>
+    <p><code>GET /v1/catalog</code> — list approved controls and their cited obligations at the current version. <code>GET /v1/catalog/versions</code> returns the version history.</p>
+
+    <h2>Fetch a past clearance</h2>
+    <p><code>GET /v1/clearances/{id}</code> — returns the full, reproducible determination: inputs, matched controls, citations, and the pinned catalog version. This is the examination artifact.</p>
+
+    <h2>Examiner packet</h2>
+    <p><code>GET /v1/clearances/{id}/packet</code> — the determination as a review-ready ledger: each obligation
+      with its citation, a source-law link, the satisfying control or routed owner, and its status — plus a
+      recall attestation and an <code>audit_chain_verified</code> flag.</p>
+
+    <h2>Verify the audit log</h2>
+    <p>The event log is a sha-256 hash chain. <code>GET /v1/events/verify</code> recomputes it and reports the
+      first break, if any; <code>GET /v1/events/anchor</code> returns the current head commitment (count + head
+      hash) to publish externally, so even a full-database compromise can't rewrite history undetected.</p>
+    <pre><span class="k">GET</span> /v1/events/verify
+<span class="c">→ 200</span> { <span class="n">"ok"</span>: <span class="s">true</span>, <span class="n">"entries"</span>: <span class="s">128</span>, <span class="n">"broken_at"</span>: <span class="s">null</span> }</pre>
+
+    <h2>Delta webhooks</h2>
+    <p>Subscribe to be notified when a clearance produces a delta or when a routed item is ratified. Each
+      delivery is HMAC-signed (<code>X-Clearway-Signature: sha256=…</code>) and sent only to a re-validated
+      public endpoint (SSRF / DNS-rebind guarded). <code>GET /v1/webhooks/deliveries</code> returns delivery telemetry.</p>
+    <pre><span class="k">POST</span> {your_endpoint}
+<span class="k">X-Clearway-Signature:</span> sha256=…
+{
+  <span class="n">"event"</span>: <span class="s">"clearance.recorded"</span>,
+  <span class="n">"clearance_id"</span>: <span class="s">"clr_3a9f…"</span>,
+  <span class="n">"routed"</span>: [ { <span class="n">"ref"</span>: <span class="s">"AI underwriting"</span>, <span class="n">"to"</span>: <span class="s">"Model Risk"</span> } ]
+}</pre>
+
+    <h2>As an MCP tool</h2>
+    <p>Clearway exposes <code>clear()</code> over the Model Context Protocol, so an agent in your stack can request a determination directly.</p>
+    <pre><span class="k">tool</span> clear(product, jurisdictions, components)
+  <span class="c">→</span> { decision, cleared[], routed[], catalog_version }</pre>
+
+    <h2>Errors</h2>
+    <dl class="kv">
+      <dt>400</dt><dd>malformed product profile — a component is missing <code>ref</code>.</dd>
+      <dt>401</dt><dd>missing or invalid API key.</dd>
+      <dt>403</dt><dd>key lacks the required scope for this route.</dd>
+      <dt>409</dt><dd>catalog is mid-ratification; retry with backoff.</dd>
+      <dt>413</dt><dd>request body exceeds the size limit.</dd>
+      <dt>422</dt><dd>jurisdiction not supported in your plan.</dd>
+      <dt>429</dt><dd>rate limited — see <code>Retry-After</code>.</dd>
+    </dl>
+
+    <hr />
+    <p><small>Looking for the model? See the <a href="architecture.html">architecture</a> for the data model and the
+      two-plane design, or <a href="mailto:hello@clearwayagents.ai">request sandbox access</a>.</small></p>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="footgrid">
+    <div class="fcol"><a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a><p>Automated regulatory clearance for any product or change.</p></div>
+    <div class="fcol"><h5>Product</h5><a href="product.html">How it works</a><a href="architecture.html">Architecture</a><a href="docs.html">Docs</a><a href="security.html">Security</a><a href="pricing.html">Pricing</a></div>
+    <div class="fcol"><h5>Company</h5><a href="company.html">About</a><a href="mailto:hello@clearwayagents.ai">Contact</a></div>
+    <div class="fcol"><h5>Legal</h5><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="dpa.html">DPA</a><a href="https://github.com/carlos-rdz/clearway-demo">GitHub</a></div>
+  </div>
+  <div class="footbar"><span>© 2026 Clearway Agents</span><span>Clearway Agents provides software tooling, not legal advice.</span></div>
+</footer>
+</body>
+</html>

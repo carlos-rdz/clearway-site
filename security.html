@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Security &amp; trust — Clearway Agents</title>
+<meta name="description" content="How Clearway Agents handles data, access, and auditability: per-tenant isolation, encryption in transit and at rest, no training on customer data, append-only audit, reproducible determinations, and a responsible-disclosure program." />
+<link rel="canonical" href="https://clearwayagents.ai/security.html" />
+<meta property="og:title" content="Security & trust — Clearway Agents" />
+<meta property="og:description" content="Built to sit inside a regulated stack — isolated, audited, reproducible." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://clearwayagents.ai/security.html" />
+<meta property="og:image" content="https://clearwayagents.ai/og.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%238b8cff'/><rect x='9' y='9' width='14' height='14' rx='4' fill='%2334d39a'/></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav><div class="wrap nav">
+  <a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a>
+  <div class="navlinks">
+    <a href="product.html">Product</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="security.html">Security</a>
+    <a href="docs.html">Docs</a>
+    <a href="company.html">Company</a>
+    <a href="pricing.html">Pricing</a>
+  </div>
+  <a class="btn primary" href="mailto:hello@clearwayagents.ai">Book a demo</a>
+</div></nav>
+
+<header class="wrap pagehead">
+  <div class="crumbs"><a href="index.html">Home</a> / Security</div>
+  <div class="kicker">Security &amp; trust</div>
+  <h1>Built to sit inside a regulated stack.</h1>
+  <p class="lead">Clearway is the control plane — it does not hold your customers' funds or move money, and it is
+    not a regulated entity. The bank and the fintech remain the obligated parties. Our job is to make their
+    decisions fast, cited, and reproducible, while keeping their data isolated and every action logged.</p>
+</header>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Data</div>
+  <h2>Isolated, encrypted, and never used to train models.</h2>
+  <div class="cards">
+    <div class="card"><h3>Encryption</h3><p>Encrypted in transit (TLS 1.2+) and at rest under a customer-managed KMS key (database and secrets). Secrets resolve through a pluggable loader — AWS Secrets Manager, Vault, or mounted files — never embedded in the image.</p></div>
+    <div class="card"><h3>Tenant isolation</h3><p>Every row carries its tenant; data, catalog, audit, and the API keys that reach them are scoped per tenant. No cross-tenant access or leakage.</p></div>
+    <div class="card"><h3>No model training</h3><p>Customer data is used to render clearances, not to train models. Inference runs under zero-retention terms with our model provider.</p></div>
+    <div class="card"><h3>Data minimization</h3><p>We process the product and program configuration needed to clear — not end-customer PII beyond what an obligation requires.</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Access &amp; audit</div>
+  <h2>Least privilege, and a log of everything.</h2>
+  <div class="cards">
+    <div class="card"><h3>Scoped API keys</h3><p>Least-privilege scopes (clear / construct / ratify / admin), hashed at rest, with rotation and expiry. SSO/SAML and SCIM provisioning are on the roadmap.</p></div>
+    <div class="card"><h3>Tamper-evident audit</h3><p>Every clearance, ratification, and key event is appended to a sha-256 hash-chained ledger. A per-tenant head commitment can be published externally; interior edits <em>and</em> truncation are both detected, and the chain verifies on demand.</p></div>
+    <div class="card"><h3>Reproducible</h3><p>A determination replays from its cited controls and pinned catalog version — the artifact an examiner asks for — and the packet carries an attestation that the audit chain verified.</p></div>
+    <div class="card"><h3>Human-in-the-loop</h3><p>Controls enter the catalog only after a person ratifies them, gated on a recall check so coverage can't regress. The decision itself runs no model.</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Application &amp; infrastructure</div>
+  <h2>Hardened where it actually gets attacked.</h2>
+  <div class="cards">
+    <div class="card"><h3>Safe outbound webhooks</h3><p>Delivery is HMAC-signed and pinned to a re-validated public IP — an SSRF and DNS-rebinding guard blocks loopback, private, and cloud-metadata targets at both subscription and send time.</p></div>
+    <div class="card"><h3>Abuse &amp; DoS guards</h3><p>Per-key rate limiting (distributed via Redis, degrading to in-process rather than failing open) and request-body size limits on every route.</p></div>
+    <div class="card"><h3>Defined as code</h3><p>Infrastructure is Terraform — private subnets, least-privilege security groups, managed Postgres, a TLS load balancer — deployed by CI/CD over GitHub OIDC with no static cloud keys.</p></div>
+    <div class="card"><h3>Quality gate in CI</h3><p>A recall-first eval over a hand-specified golden set runs on every change; a single missed obligation fails the build before it can reach a determination.</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Subprocessors</div>
+  <h2>A short, disclosed list.</h2>
+  <p class="lead">We keep the subprocessor list small and current. A full, versioned list is provided under a signed
+    agreement; the categories:</p>
+  <dl class="kv">
+    <dt>Model inference</dt><dd>LLM provider for the knowledge plane, under zero-retention / no-training terms.</dd>
+    <dt>Cloud infrastructure</dt><dd>Compute, storage, and managed databases in a major cloud region.</dd>
+    <dt>Observability</dt><dd>Error monitoring and tracing, scrubbed of customer content.</dd>
+  </dl>
+  <div class="note">Clearway provides software tooling, not legal advice, and is not a bank, money transmitter, or
+    regulated entity. Determinations support a customer's own compliance program; they do not replace it.</div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Compliance posture</div>
+  <h2>Honest about where we are.</h2>
+  <div class="cards">
+    <div class="card"><h3>SOC 2</h3><p>SOC 2 Type II is on our roadmap. The architecture — least privilege, append-only audit, reproducibility — is built for it from day one.</p></div>
+    <div class="card"><h3>Examination support</h3><p>Because every clearance is reproducible from cited controls and a pinned catalog version, customers can answer "how did this clear?" with evidence.</p></div>
+    <div class="card"><h3>Change management</h3><p>Catalog and policy changes are versioned, reviewed, and gated by a recall-first eval before they can affect a determination.</p></div>
+    <div class="card"><h3>Data residency</h3><p>Region pinning is available for customers with residency requirements.</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Responsible disclosure</div>
+  <h2>Found something? Tell us.</h2>
+  <p class="lead">We welcome good-faith security research and will not pursue researchers who act in good faith,
+    avoid privacy violations and service degradation, and give us reasonable time to remediate.</p>
+  <p class="lead">Report to <a href="mailto:security@clearwayagents.ai" style="color:var(--cyan)">security@clearwayagents.ai</a>.</p>
+  <div class="cta-band">
+    <h2>Security questions for a deal?</h2>
+    <p>We'll walk your team through our controls and share documentation under NDA.</p>
+    <a class="btn primary" href="mailto:security@clearwayagents.ai">Contact security</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="footgrid">
+    <div class="fcol"><a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a><p>Automated regulatory clearance for any product or change.</p></div>
+    <div class="fcol"><h5>Product</h5><a href="product.html">How it works</a><a href="architecture.html">Architecture</a><a href="docs.html">Docs</a><a href="security.html">Security</a><a href="pricing.html">Pricing</a></div>
+    <div class="fcol"><h5>Company</h5><a href="company.html">About</a><a href="mailto:hello@clearwayagents.ai">Contact</a></div>
+    <div class="fcol"><h5>Legal</h5><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="dpa.html">DPA</a><a href="https://github.com/carlos-rdz/clearway-demo">GitHub</a></div>
+  </div>
+  <div class="footbar"><span>© 2026 Clearway Agents</span><span>Clearway Agents provides software tooling, not legal advice.</span></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Architecture — Clearway Agents</title>
+<meta name="description" content="Clearway Agents architecture: a deterministic decision plane over an agent-built knowledge plane. Clause-level retrieval, policy-as-code, tiered models with forced tool-use, append-only audit, and a recall-first eval gate." />
+<link rel="canonical" href="https://clearwayagents.ai/architecture.html" />
+<meta property="og:title" content="Architecture — Clearway Agents" />
+<meta property="og:description" content="A deterministic decision plane over an agent-built knowledge plane." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://clearwayagents.ai/architecture.html" />
+<meta property="og:image" content="https://clearwayagents.ai/og.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%238b8cff'/><rect x='9' y='9' width='14' height='14' rx='4' fill='%2334d39a'/></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav><div class="wrap nav">
+  <a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a>
+  <div class="navlinks">
+    <a href="product.html">Product</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="security.html">Security</a>
+    <a href="docs.html">Docs</a>
+    <a href="company.html">Company</a>
+    <a href="pricing.html">Pricing</a>
+  </div>
+  <a class="btn primary" href="mailto:hello@clearwayagents.ai">Book a demo</a>
+</div></nav>
+
+<header class="wrap pagehead">
+  <div class="crumbs"><a href="index.html">Home</a> / Architecture</div>
+  <div class="kicker">Architecture</div>
+  <h1>A deterministic decision over an agent-built knowledge base.</h1>
+  <p class="lead">Two planes, deliberately separated. The clearance <em>decision</em> is deterministic and
+    replayable — it runs no model. The agents work on the <em>knowledge base</em> behind it: ingesting the
+    source law, extracting cited controls, and keeping them current. The split is the point — it is what lets a
+    bank and an examiner trust an automated determination.</p>
+</header>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">The two planes</div>
+  <h2>Where the model runs, and where it deliberately doesn't.</h2>
+  <div class="planes">
+    <div class="plane">
+      <div class="pt">decision plane · the hot path</div>
+      <ul>
+        <li>Component → control matching plus <b>policy-as-code</b> (OPA/Rego-style). <b>No model in the loop.</b></li>
+        <li>Sub-second and deterministic; the same inputs always produce the same determination.</li>
+        <li>Every result carries its controlling clause and the control that satisfied it.</li>
+        <li>Tamper-evident, hash-chained ledger — each clearance replays from cited inputs plus the pinned catalog version, and the chain verifies on demand.</li>
+      </ul>
+    </div>
+    <div class="plane">
+      <div class="pt">knowledge plane · agentic</div>
+      <ul>
+        <li>Ingest source law → clause-level chunking → <b>structured extraction</b> with forced tool-use, so a citation is mandatory at the schema layer.</li>
+        <li>Proposed controls are <b>human-ratified</b> before they enter the catalog, and versioned.</li>
+        <li>A change-feed re-flags controls affected by amendments; a product cannot clear against a superseded control.</li>
+        <li>Tiered models — a strong model for synthesis and triage, a cheap model for extraction and classification; system prompt and corpus are prompt-cached.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">The stack</div>
+  <h2>Six components, each replaceable except the middle.</h2>
+  <div class="stackgrid">
+    <div class="sc"><div class="sk">retrieval</div>Clause-level chunks with metadata (regulation, section, jurisdiction, version). Hybrid vector + BM25 with a reranker, over a versioned corpus.</div>
+    <div class="sc"><div class="sk">policy engine</div>Policy-as-code (OPA/Rego-style). Versioned and unit-tested per obligation, so a rule change is a reviewable diff.</div>
+    <div class="sc"><div class="sk">models</div>Tiered by job — synthesis vs. extraction. Forced-tool-use schemas make structured, cited output mandatory. System + corpus prompt-cached.</div>
+    <div class="sc"><div class="sk">audit</div>Tamper-evident, sha-256 hash-chained ledger with an externally anchorable per-tenant head. Every determination pins its catalog version, so it is reproducible — and provably unaltered — for examination.</div>
+    <div class="sc"><div class="sk">integration</div>MCP surface — exposes a <code>clear()</code> tool and consumes one connector per upstream system (rails, KYC, ticketing).</div>
+    <div class="sc"><div class="sk">quality gate</div>Recall-first eval harness. A missed obligation is the catastrophic error, so CI blocks a deploy that regresses recall.</div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Data model</div>
+  <h2>Everything is a cited object.</h2>
+  <p class="lead">A product is a composition of components; each determination references the control and clause that
+    produced it. There is no field for an uncited compliance claim.</p>
+  <dl class="kv">
+    <dt>ProductSpec</dt><dd>name, description, jurisdictions, and a list of components.</dd>
+    <dt>Component</dt><dd>a discrete part of the product (onboarding, fees, a model, a funds path) with its parameters.</dd>
+    <dt>Obligation</dt><dd>a controlling rule retrieved from the catalog, at clause granularity, with a citation.</dd>
+    <dt>Control</dt><dd>an approved, parameterized way of satisfying one or more obligations; human-ratified and versioned.</dd>
+    <dt>Determination</dt><dd>cleared or routed, with the matched control, the cited clause, and the catalog version.</dd>
+    <dt>Citation</dt><dd>{ regulation, clause, url, catalog_version } — mandatory on every Obligation and Control.</dd>
+  </dl>
+  <pre><span class="c">// a clearance result — every component points at the clause that cleared it</span>
+{
+  <span class="n">"product"</span>: <span class="s">"Installment Credit Card · US"</span>,
+  <span class="n">"decision"</span>: <span class="s">"AUTO_CLEARED"</span>,
+  <span class="n">"catalog_version"</span>: <span class="s">"2026-06-01"</span>,
+  <span class="n">"components"</span>: [
+    { <span class="n">"ref"</span>: <span class="s">"Identity / CIP"</span>, <span class="n">"control"</span>: <span class="s">"kyc-standard"</span>,
+      <span class="n">"citation"</span>: <span class="s">"31 CFR 1022.220"</span>, <span class="n">"state"</span>: <span class="s">"cleared"</span> },
+    { <span class="n">"ref"</span>: <span class="s">"APR &amp; fee disclosure"</span>, <span class="n">"control"</span>: <span class="s">"tila-disclosure"</span>,
+      <span class="n">"citation"</span>: <span class="s">"Reg Z · 12 CFR 1026.6"</span>, <span class="n">"state"</span>: <span class="s">"cleared"</span> }
+  ],
+  <span class="n">"routed"</span>: []
+}</pre>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Interface</div>
+  <h2>Clearance is a tool call.</h2>
+  <p class="lead">Clearway exposes clearance over an MCP/HTTP surface, so any product stack or governance system can ask
+    for a determination. <a href="docs.html" style="color:var(--cyan)">Full reference →</a></p>
+  <pre><span class="k">POST</span> /v1/clear
+{
+  <span class="n">"product"</span>: <span class="s">"Cross-border BNPL · US+MX"</span>,
+  <span class="n">"jurisdictions"</span>: [<span class="s">"US"</span>, <span class="s">"MX"</span>],
+  <span class="n">"components"</span>: [
+    { <span class="n">"ref"</span>: <span class="s">"AI underwriting"</span>, <span class="n">"attributes"</span>: { <span class="n">"model"</span>: <span class="s">"in-house"</span> } }
+  ]
+}
+
+<span class="c">→ 200</span>
+{ <span class="n">"decision"</span>: <span class="s">"DELTA_REVIEW"</span>,
+  <span class="n">"routed"</span>: [ { <span class="n">"ref"</span>: <span class="s">"AI underwriting"</span>,
+                <span class="n">"reason"</span>: <span class="s">"ECOA §1002.4 + SR 11-7 — no approved control"</span>,
+                <span class="n">"to"</span>: <span class="s">"Model Risk"</span> } ] }</pre>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Trust properties</div>
+  <h2>Why a determination holds up.</h2>
+  <div class="cards">
+    <div class="card"><h3>Deterministic</h3><p>The decision is matching plus policy evaluation. No model runs in it, so it cannot drift or hallucinate a clearance.</p></div>
+    <div class="card"><h3>Cited</h3><p>Every cleared component names its clause and control. Every routed component names what's missing.</p></div>
+    <div class="card"><h3>Reproducible</h3><p>Pin the catalog version and prompt versions and a past clearance replays exactly — the artifact an examiner asks for.</p></div>
+    <div class="card"><h3>Recall-first</h3><p>The eval gate optimizes recall: an unmatched obligation is surfaced, never silently skipped. A regression blocks deploy.</p></div>
+  </div>
+  <div class="cta-band">
+    <h2>Go deeper</h2>
+    <p>The API reference, data model, and an end-to-end example.</p>
+    <a class="btn primary" href="docs.html">Read the docs</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="footgrid">
+    <div class="fcol"><a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a><p>Automated regulatory clearance for any product or change.</p></div>
+    <div class="fcol"><h5>Product</h5><a href="product.html">How it works</a><a href="architecture.html">Architecture</a><a href="docs.html">Docs</a><a href="security.html">Security</a><a href="pricing.html">Pricing</a></div>
+    <div class="fcol"><h5>Company</h5><a href="company.html">About</a><a href="mailto:hello@clearwayagents.ai">Contact</a></div>
+    <div class="fcol"><h5>Legal</h5><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="dpa.html">DPA</a><a href="https://github.com/carlos-rdz/clearway-demo">GitHub</a></div>
+  </div>
+  <div class="footbar"><span>© 2026 Clearway Agents</span><span>Clearway Agents provides software tooling, not legal advice.</span></div>
+</footer>
+</body>
+</html>

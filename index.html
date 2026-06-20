@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Clearway Agents — automated regulatory clearance</title>
+<meta name="description" content="Clearway Agents runs the regulatory clearance check on every product and change — mapping each part to its controlling obligation and an approved control, clearing what's covered and routing only the genuinely new to a person." />
+<link rel="canonical" href="https://clearwayagents.ai/" />
+<meta property="og:title" content="Clearway Agents — automated regulatory clearance" />
+<meta property="og:description" content="Agents map every product to its controlling obligation and an approved control, clear what's covered, and route only the genuinely new to a person." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://clearwayagents.ai/" />
+<meta property="og:image" content="https://clearwayagents.ai/og.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%238b8cff'/><rect x='9' y='9' width='14' height='14' rx='4' fill='%2334d39a'/></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav><div class="wrap nav">
+  <a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a>
+  <div class="navlinks">
+    <a href="product.html">Product</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="security.html">Security</a>
+    <a href="docs.html">Docs</a>
+    <a href="company.html">Company</a>
+    <a href="pricing.html">Pricing</a>
+  </div>
+  <a class="btn primary" href="mailto:hello@clearwayagents.ai">Book a demo</a>
+</div></nav>
+
+<header class="wrap hero">
+  <div class="kicker">Automated regulatory clearance</div>
+  <h1>Every product and change is checked against the regulations that apply — before it ships. <span class="g">Clearway runs that check.</span></h1>
+  <p class="sub">A product has to satisfy the rules that apply to it — identity (<code>31 CFR 1020.220</code>),
+    disclosures (<code>Reg Z §1026.6</code>), fair lending (<code>ECOA §1002.9</code>), sanctions (OFAC),
+    money transmission per state, and more. The rules don't change between products. Clearway decomposes a
+    product into its parts, maps each to its controlling obligation and an approved control, clears what's
+    already covered, and routes only the genuinely new to a person.</p>
+  <div class="cta-row">
+    <a class="btn primary" href="mailto:hello@clearwayagents.ai">Book a demo</a>
+    <a class="btn" href="#run">Watch the agents ↓</a>
+  </div>
+  <div class="stat">
+    <div><div class="big">30+ / 50</div><div class="lbl">frameworks and state licensing regimes the catalog spans</div></div>
+    <div><div class="big">100%</div><div class="lbl">of clearances cited to a clause and reproducible for examination</div></div>
+    <div><div class="big">0</div><div class="lbl">models in the decision path — the clearance itself is deterministic</div></div>
+  </div>
+</header>
+
+<section class="hlband"><div class="wrap">
+  <div class="flow">
+    <div class="fbox">New product or change<small>components · jurisdictions</small></div>
+    <div class="far">→</div>
+    <div class="fbox lit">Clearway<small>agents map each component to its obligation &amp; approved control</small></div>
+    <div class="far">→</div>
+    <div class="fsplit">
+      <div class="fbox ok">Cleared automatically<small>matches an approved control — cited, logged</small></div>
+      <div class="fbox warn">Routed to a person<small>no existing control — the exception</small></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="band" id="run"><div class="wrap">
+  <div class="eyebrow">Inside a clearance</div>
+  <h2>The real flow: a deterministic decision, with agents only where it's genuinely new.</h2>
+  <p class="lead">This mirrors the engine. The <b>decision plane</b> is deterministic — decompose, test applicability,
+    look up the approved control, decide, record — <b>no model in the loop</b>, every check cited to real CFR/USC.
+    Only when an obligation has no control does the <b>knowledge plane</b> kick in: agents draft a control, a verifier
+    checks it, and a <b>human ratifies</b> it before it can ever clear anything. Watch it across four product types.</p>
+  <div class="stage">
+    <div class="stage-head">
+      <span class="t mono" id="stageTitle">clearing: —</span>
+      <span class="live" style="gap:16px">
+        <span><span class="dot"></span> decision · deterministic</span>
+        <span style="color:var(--violet)"><span class="dot" style="background:var(--violet)"></span> knowledge · agents → human</span>
+      </span>
+    </div>
+    <div class="arena" id="arena">
+      <div class="workcard" id="workcard"><div class="wt">—</div><div class="wo"></div><div class="ws"></div></div>
+    </div>
+    <div class="chat" id="chat"></div>
+    <div class="road" id="road"></div>
+    <div class="verdict" id="verdict"></div>
+    <div class="runrow" id="runrow"></div>
+  </div>
+</div></section>
+
+<section class="band" id="coverage"><div class="wrap">
+  <div class="eyebrow">Regulatory coverage</div>
+  <h2>Obligations mapped across frameworks and jurisdictions.</h2>
+  <p class="lead">A product is decomposed into components; each component's applicable obligations are retrieved
+    from the catalog and checked. The catalog is built once from the source law and kept current.</p>
+  <div class="covstat">
+    <div><b>30+</b>regulatory frameworks</div>
+    <div><b>50</b>state money-transmission regimes</div>
+    <div><b>recall-first</b>unmatched obligations are flagged, not skipped</div>
+  </div>
+  <div class="covgrid">
+    <div class="covcol"><h4>Financial crime</h4><div class="cc"><span>BSA/AML 31 CFR 1022</span><span>CIP §1022.220</span><span>CDD/EDD</span><span>OFAC 31 CFR 501</span><span>SAR/CTR</span><span>Travel Rule</span></div></div>
+    <div class="covcol"><h4>Lending &amp; credit</h4><div class="cc"><span>Reg Z · 12 CFR 1026</span><span>ECOA Reg B · 1002</span><span>FCRA</span><span>MLA</span><span>UDAAP 1031</span><span>state usury</span></div></div>
+    <div class="covcol"><h4>Payments &amp; deposits</h4><div class="cc"><span>Reg E · 12 CFR 1005</span><span>Reg DD · 1030</span><span>Reg CC</span><span>NACHA</span><span>network rules</span></div></div>
+    <div class="covcol"><h4>Privacy &amp; data</h4><div class="cc"><span>GLBA · 16 CFR 314</span><span>Reg P · 1016</span><span>CCPA/CPRA</span><span>state privacy</span></div></div>
+    <div class="covcol"><h4>Licensing</h4><div class="cc"><span>Money transmission ×50</span><span>BitLicense 23 NYCRR 200</span><span>FinCEN MSB</span></div></div>
+    <div class="covcol"><h4>Prudential &amp; model</h4><div class="cc"><span>Model risk · SR 11-7</span><span>Third-party risk</span><span>Change mgmt</span><span>Complaints</span><span>OCC 2017-43</span></div></div>
+  </div>
+  <div class="note">An obligation with no matching control is surfaced and routed to a person. A clearance is reproducible
+    from its cited controls and the catalog version — the same inputs reproduce the same determination for examination.</div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Where it runs</div>
+  <h2>Reads program and product configuration from the rails.</h2>
+  <p class="lead">Clearway is built to integrate with the systems a fintech already runs on — reading what a product is, and writing
+    the cleared authorization and its citations back to the bank's system of record. One integration per rail.</p>
+  <div class="rails">
+    <div class="rail"><div class="rt">Sponsor banks</div><div class="rd">program oversight</div></div>
+    <div class="rail"><div class="rt">BaaS</div><div class="rd">Unit · Lithic · TP</div></div>
+    <div class="rail"><div class="rt">Processors</div><div class="rd">Marqeta · Galileo</div></div>
+    <div class="rail"><div class="rt">Networks</div><div class="rd">Visa · MC · Amex</div></div>
+    <div class="rail"><div class="rt">KYC / AML</div><div class="rd">Persona · Alloy</div></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Catalog construction</div>
+  <h2>A control is reviewed once, then applies to every later product.</h2>
+  <p class="lead">When a component has no matching control, the accountable function reviews it and the control is added
+    to the catalog, cited to its clause. The next product with that component matches the existing control.</p>
+  <div class="fly">
+    <div class="fcard"><div class="fv">catalog v2026-06-01</div><div class="fb">Cross-border BNPL · US+MX</div>
+      <div style="color:var(--amber);font-weight:700;font-size:12.5px">2 obligations need a control</div>
+      <div style="color:var(--muted);font-size:12px;margin-top:6px">AI underwriting (SR 11-7) → Model Risk; MX remittance (Reg E §1005.30 + MTL) → Legal.</div></div>
+    <div class="arrow">→<small>reviewed once, added to catalog</small></div>
+    <div class="fcard"><div class="fv">catalog v2026-06-15</div><div class="fb">the next US+MX product</div>
+      <div style="color:var(--green);font-weight:700;font-size:12.5px">matches the existing controls</div>
+      <div style="color:var(--muted);font-size:12px;margin-top:6px">SR 11-7 validation and the MX corridor control are now in the catalog and apply automatically.</div></div>
+  </div>
+</div></section>
+
+<section class="band" id="hood"><div class="wrap">
+  <div class="eyebrow">Under the hood</div>
+  <h2>A deterministic decision over an agent-built knowledge base.</h2>
+  <p class="lead">Two planes. The clearance decision is deterministic and replayable; the agents work on the
+    knowledge base behind it, never on the live decision. <a href="architecture.html" style="color:var(--cyan)">Full architecture →</a></p>
+  <div class="planes">
+    <div class="plane">
+      <div class="pt">decision plane · the hot path</div>
+      <ul>
+        <li>Component → control matching plus <b>policy-as-code</b> (OPA/Rego-style) — no model in the loop</li>
+        <li>Every result carries its clause; sub-second and deterministic</li>
+        <li>Append-only event log — each clearance replays from cited inputs + catalog version</li>
+      </ul>
+    </div>
+    <div class="plane">
+      <div class="pt">knowledge plane · agentic</div>
+      <ul>
+        <li>Ingest source law → clause-level chunking → <b>structured extraction</b> with forced tool-use (citations mandatory)</li>
+        <li>Controls are human-ratified and versioned; a change-feed re-flags affected controls</li>
+        <li>Tiered models for synthesis vs. extraction; system + corpus prompt-cached</li>
+      </ul>
+    </div>
+  </div>
+  <div class="stackgrid">
+    <div class="sc"><div class="sk">retrieval</div>clause-level chunks · hybrid vector + BM25 + rerank · versioned corpus</div>
+    <div class="sc"><div class="sk">policy engine</div>policy-as-code · versioned · unit-tested per obligation</div>
+    <div class="sc"><div class="sk">models</div>tiered (synthesis / extraction) · forced-tool-use schemas · prompt caching</div>
+    <div class="sc"><div class="sk">audit</div>tamper-evident hash-chained ledger · externally anchorable head · pinned catalog version · replayable</div>
+    <div class="sc"><div class="sk">integration</div>MCP surface — exposes clear(), consumes a connector per system</div>
+    <div class="sc"><div class="sk">quality gate</div>recall-first eval harness · CI blocks deploy on a missed obligation</div>
+  </div>
+</div></section>
+
+<section class="band" id="platform"><div class="wrap">
+  <div class="eyebrow">Platform</div>
+  <h2>What's running under the product today.</h2>
+  <p class="lead">Not slideware. The clearance engine is built, tested, and reproducible — a deterministic
+    decision plane, an agent-built knowledge plane behind it, and the integration surface a bank's stack
+    expects. <a href="mailto:hello@clearwayagents.ai" style="color:var(--cyan)">Book a walkthrough →</a></p>
+  <div class="stackgrid">
+    <div class="sc"><div class="sk">live coverage</div>four product types clear end-to-end today — credit card, BNPL, money movement (MSB), deposit account — every obligation cited to real CFR/USC</div>
+    <div class="sc"><div class="sk">examiner packet</div>obligation → citation → source-law link → control → status, recall-attested and reproducible from the pinned catalog version</div>
+    <div class="sc"><div class="sk">tamper-evident audit</div>sha-256 hash-chained ledger with a per-tenant head commitment you can publish externally — interior edits and truncation both detected; verifies on demand</div>
+    <div class="sc"><div class="sk">human-ratified catalog</div>a model only drafts; a person ratifies before a control can ever widen the catalog — gated on a recall check so coverage can't regress</div>
+    <div class="sc"><div class="sk">scoped API + keys</div>multi-tenant, least-privilege scopes (clear / construct / ratify / admin), keys hashed at rest with rotation and expiry</div>
+    <div class="sc"><div class="sk">integration surface</div>signed webhooks with an SSRF + DNS-rebind guard, an event feed, an MCP <code>clear()</code> tool, and a versioned OpenAPI</div>
+    <div class="sc"><div class="sk">resilient by default</div>distributed rate limiting (Redis, degrades in-process), request-size guards, idempotency, and a secrets loader for KMS / Vault</div>
+    <div class="sc"><div class="sk">ships as code</div>infrastructure-as-code on AWS — private networking, encryption at rest (KMS), TLS, managed Postgres — with CI/CD and database migrations</div>
+    <div class="sc"><div class="sk">recall-gated CI</div>a hand-specified golden set runs on every change; a single missed obligation fails the build before it can ship</div>
+  </div>
+</div></section>
+
+<section class="band" id="security"><div class="wrap">
+  <div class="eyebrow">Security</div>
+  <h2>Built to sit inside a regulated stack.</h2>
+  <p class="lead"><a href="security.html" style="color:var(--cyan)">Full security posture →</a></p>
+  <div class="trust">
+    <div class="tc"><div class="th">Data stays isolated</div><div class="td">Encrypted in transit (TLS 1.2+) and at rest under a customer-managed KMS key, isolated per tenant. Customer data is not used to train models.</div></div>
+    <div class="tc"><div class="th">Least privilege, fully logged</div><div class="td">Scoped, hashed API keys with rotation and expiry; signed webhooks behind an SSRF/DNS-rebind guard; a tamper-evident audit of every determination. SSO/SAML and SCIM on the roadmap.</div></div>
+    <div class="tc"><div class="th">Examiner-ready by design</div><div class="td">Every clearance reproduces from its cited controls and pinned catalog version, and the audit chain verifies on demand. Clearway provides software tooling, not legal advice.</div></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="footgrid">
+    <div class="fcol"><a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a><p>Automated regulatory clearance for any product or change.</p></div>
+    <div class="fcol"><h5>Product</h5><a href="product.html">How it works</a><a href="architecture.html">Architecture</a><a href="docs.html">Docs</a><a href="security.html">Security</a><a href="pricing.html">Pricing</a></div>
+    <div class="fcol"><h5>Company</h5><a href="company.html">About</a><a href="mailto:hello@clearwayagents.ai">Contact</a></div>
+    <div class="fcol"><h5>Legal</h5><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="dpa.html">DPA</a><a href="https://github.com/carlos-rdz/clearway-demo">GitHub</a></div>
+  </div>
+  <div class="footbar"><span>© 2026 Clearway Agents</span><span>Clearway Agents provides software tooling, not legal advice.</span></div>
+</footer>
+
+<script>
+const ICON={
+  intake:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h7"/></svg>',
+  mcp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v4M5 8l3 2M19 8l-3 2M12 21a4 4 0 100-8 4 4 0 000 8z"/></svg>',
+  env:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12l3 3 5-6"/></svg>',
+  pol:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/></svg>',
+  llm:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>',
+  aud:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h9l3 3v15H6z"/><path d="M9 12h6M9 16h6"/></svg>'
+};
+const AGENTS=[{k:'intake',nm:'Intake'},{k:'mcp',nm:'Retrieval'},{k:'env',nm:'Envelope'},{k:'pol',nm:'Policy'},{k:'llm',nm:'Triage'},{k:'aud',nm:'Audit'}];
+const ROLE=['Decompose','Applicability','Control','Decision','Draft','Record'];
+// which plane each stage belongs to — the decision is deterministic; agents only work in the
+// knowledge plane (drafting a control), and a human ratifies it.
+const PLANE=['decision','decision','decision','decision · no model','knowledge · agentic','decision'];
+const COLOR=['#8b8cff','#3fd0e6','#34d39a','#fbbf3c','#f4799e','#a78bfa'];
+const ORBIT=[[15,30],[50,13],[85,30],[85,78],[50,90],[15,72]];
+
+// Headline checks per product type — real obligation IDs, citations, controls and owners. These ~6
+// are the watchable subset the agents walk on screen; the verdict shows the real applicable totals.
+const PRODUCTS=[
+ {name:'US consumer credit card',pt:'credit_card_us',result:'AUTO_CLEARED',
+  comps:[
+   {ref:'Identity / CIP',id:'CIP',cite:'31 CFR 1020.220',control:'cip_program',partner:'Compliance',state:'cleared'},
+   {ref:'Sanctions screening',id:'OFAC',cite:'31 CFR Ch. V',control:'ofac_screening',partner:'Compliance',state:'cleared'},
+   {ref:'Cost-of-credit disclosure',id:'REGZ-OPEN',cite:'12 CFR 1026.6(b)',control:'acct_opening_disclosures',partner:'Compliance',state:'cleared'},
+   {ref:'Adverse action',id:'ECOA-AA',cite:'12 CFR 1002.9',control:'ecoa_adverse_action',partner:'Fair Lending',state:'cleared'},
+   {ref:'Risk-based pricing',id:'FCRA-RBP',cite:'12 CFR 1022.72',control:'risk_based_pricing_notice',partner:'Compliance',state:'cleared'},
+   {ref:'Data safeguards',id:'GLBA-SAFEGUARDS',cite:'16 CFR 314',control:'safeguards_program',partner:'Security',state:'cleared'}]},
+ {name:'US Buy Now, Pay Later',pt:'bnpl_us',result:'DELTA_REVIEW',
+  comps:[
+   {ref:'Identity / CIP',id:'CIP',cite:'31 CFR 1020.220',control:'cip_program',partner:'Compliance',state:'cleared'},
+   {ref:'Sanctions screening',id:'OFAC',cite:'31 CFR Ch. V',control:'ofac_screening',partner:'Compliance',state:'cleared'},
+   {ref:'Closed-end disclosure · >4 installments',id:'BNPL-REGZ-CE',cite:'12 CFR 1026.18',control:'closed_end_disclosures',partner:'Compliance',state:'cleared'},
+   {ref:'Military Lending Act',id:'MLA',cite:'32 CFR 232',control:'mla_compliance',partner:'Compliance',state:'cleared'},
+   {ref:'Adverse action',id:'ECOA-AA',cite:'12 CFR 1002.9',control:'ecoa_adverse_action',partner:'Fair Lending',state:'cleared'},
+   {ref:'State lending license',id:'STATE-LENDING',cite:'varies by state',control:'state_lending_review',partner:'Legal',state:'delta'}]},
+ {name:'US money movement (MSB)',pt:'money_movement_us',result:'DELTA_REVIEW',
+  comps:[
+   {ref:'MSB registration',id:'MSB-REGISTER',cite:'31 CFR 1022.380',control:'msb_registration',partner:'Compliance',state:'cleared'},
+   {ref:'AML program',id:'MSB-AML',cite:'31 CFR 1022.210',control:'aml_program',partner:'Compliance',state:'cleared'},
+   {ref:'Travel Rule',id:'TRAVEL-RULE',cite:'31 CFR 1010.410(f)',control:'travel_rule',partner:'Compliance',state:'cleared'},
+   {ref:'Remittance transfers',id:'REMITTANCE',cite:'12 CFR 1005.30',control:'remittance_rule',partner:'Compliance',state:'cleared'},
+   {ref:'Sanctions screening',id:'OFAC',cite:'31 CFR Ch. V',control:'ofac_screening',partner:'Compliance',state:'cleared'},
+   {ref:'State money transmission',id:'STATE-MTL',cite:'varies by state',control:'state_mtl_review',partner:'Legal',state:'delta'}]},
+ {name:'US deposit account',pt:'deposit_account_us',result:'AUTO_CLEARED',
+  comps:[
+   {ref:'Identity / CIP',id:'CIP',cite:'31 CFR 1020.220',control:'cip_program',partner:'Compliance',state:'cleared'},
+   {ref:'Account disclosures · TISA',id:'REGDD-OPEN',cite:'12 CFR 1030.4',control:'tisa_account_disclosures',partner:'Compliance',state:'cleared'},
+   {ref:'Funds availability',id:'REGCC',cite:'12 CFR 229.10',control:'funds_availability',partner:'Operations',state:'cleared'},
+   {ref:'Overdraft opt-in',id:'REGE-OVERDRAFT',cite:'12 CFR 1005.17',control:'overdraft_opt_in',partner:'Compliance',state:'cleared'},
+   {ref:'FDIC official sign',id:'FDIC-SIGN',cite:'12 CFR 328.3',control:'fdic_signage',partner:'Compliance',state:'cleared'},
+   {ref:'Data safeguards',id:'GLBA-SAFEGUARDS',cite:'16 CFR 314',control:'safeguards_program',partner:'Security',state:'cleared'}]}
+];
+
+// Real applicable totals per product type, baked in. The catalog itself lives with the PRODUCT
+// (the private engine), never on this marketing site.
+const TOTALS={credit_card_us:25,bnpl_us:16,money_movement_us:14,deposit_account_us:17};
+
+const arena=document.getElementById('arena'),workcard=document.getElementById('workcard'),
+  chat=document.getElementById('chat'),road=document.getElementById('road'),
+  verdict=document.getElementById('verdict'),title=document.getElementById('stageTitle');
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let runToken=0,agents=[];
+
+function buildAgents(){
+  agents.forEach(a=>a.remove());agents=[];
+  AGENTS.forEach((a,i)=>{const el=document.createElement('div');el.className='fa';
+    el.style.left=ORBIT[i][0]+'%';el.style.top=ORBIT[i][1]+'%';el.style.animationDelay=(i*.4)+'s';
+    el.innerHTML=`<span class="ic" style="background:${COLOR[i]}">${ICON[a.k]}</span><span class="lb">${ROLE[i]}</span>`;
+    arena.appendChild(el);agents.push(el);});
+}
+buildAgents();
+
+const clauseOf=c=>c.cite;
+const partnerOf=c=>c.partner||'a reviewer';
+const SAY=[
+  c=>`decomposing the product → «${c.ref}»`,
+  c=>`does this obligation apply? triggers + any_of → yes · ${c.cite}`,
+  c=>c.state==='cleared'?`approved control in the pinned catalog: ${c.control}`:`no approved control for ${c.id} in this program yet`,
+  c=>c.state==='cleared'?`deterministic match — ${c.cite} satisfied. No model in this decision.`:`deterministic — ${c.cite} isn't satisfied, so the engine can't self-clear it`,
+  c=>c.state==='cleared'?`already covered — nothing for the agents to draft`:`now the agents work: draft a control, a verifier checks it, a human ratifies → ${partnerOf(c)}`,
+  c=>`appending a hash-chained, recall-attested entry — replayable for an examiner`
+];
+const FACT=[
+  c=>['',`decision plane · decompose → ${c.ref}`],
+  c=>['',`decision plane · applies(triggers/any_of) → ${c.id} · ${c.cite}`],
+  c=>c.state==='cleared'?['',`catalog · control ${c.control} ✓`]:['flag',`catalog · no control for ${c.id}`],
+  c=>c.state==='cleared'?['ok',`decision · deterministic · ${c.cite} satisfied · 0 models`]:['flag',`decision · deterministic · ${c.cite} → route`],
+  c=>c.state==='cleared'?['',`knowledge plane · idle — already covered`]:['flag',`knowledge plane · draft → verify → human ratify → ${partnerOf(c)}`],
+  c=>['',`decision plane · audit · hash-chained · recall-attested · packet`]
+];
+function sysMsg(text){const m=document.createElement('div');m.className='sys';m.textContent=text;chat.appendChild(m);chat.scrollTop=chat.scrollHeight;}
+function postMsg(i,c){
+  const[kind,receipt]=FACT[i](c);
+  const m=document.createElement('div');m.className='msg'+(kind?' '+kind:'');
+  m.innerHTML=`<span class="av" style="background:${COLOR[i]};color:#0a0d13">${ICON[AGENTS[i].k]}</span>`+
+    `<div class="bub"><div class="mh"><b>${ROLE[i]}</b><span class="ts">${PLANE[i]}</span></div>`+
+    `<div class="mx">${SAY[i](c)}</div><div class="cz">${receipt}</div></div>`;
+  chat.appendChild(m);chat.scrollTop=chat.scrollHeight;return kind;
+}
+function roadBlock(c){const b=document.createElement('div');b.className='block '+c.state;b.style.animation='fadeIn .35s both';
+  b.innerHTML=`<div class="bt">${c.ref}<span class="st">${c.state==='cleared'?'CLEARED':'→ HUMAN'}</span></div><div class="bc">${c.cite}</div>`;
+  road.appendChild(b);}
+
+async function processComp(c,me){
+  workcard.className='workcard';
+  workcard.querySelector('.wt').textContent=c.ref;
+  workcard.querySelector('.wo').textContent='';
+  workcard.querySelector('.ws').textContent='checking…';
+  for(let i=0;i<6;i++){
+    if(me!==runToken)return;
+    const ag=agents[i];
+    // The knowledge-plane agent (Draft) only engages when an obligation has no control. For a
+    // cleared item it stays idle in orbit — agents never touch a covered determination.
+    const engage=!(i===4 && c.state==='cleared');
+    if(engage){ag.style.left='50%';ag.style.top='26%';ag.classList.add('working');}
+    postMsg(i,c);
+    if(i===1)workcard.querySelector('.wo').textContent=clauseOf(c);
+    if(i===3){const ok=c.state==='cleared';workcard.classList.add(ok?'cleared':'delta');
+      workcard.querySelector('.ws').textContent=ok?'CLEARED':'→ ROUTED TO A PERSON';}
+    const dwell=i===3?1200:(i===4?(c.state==='cleared'?650:1500):880);
+    await sleep(dwell);
+    if(me!==runToken)return;
+    if(engage){ag.classList.remove('working');ag.style.left=ORBIT[i][0]+'%';ag.style.top=ORBIT[i][1]+'%';}
+    await sleep(330);
+  }
+  roadBlock(c);
+  await sleep(420);
+}
+
+const badge='display:inline-block;margin:6px 0 0 8px;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;background:rgba(255,255,255,.06);color:var(--muted)';
+async function run(idx){
+  const me=++runToken,p=PRODUCTS[idx];
+  title.textContent='clearing: '+p.name;
+  chat.innerHTML='';road.innerHTML='';verdict.className='verdict';verdict.innerHTML='';
+  agents.forEach((ag,i)=>{ag.classList.remove('working');ag.style.left=ORBIT[i][0]+'%';ag.style.top=ORBIT[i][1]+'%';});
+  const total=TOTALS[p.pt]||p.comps.length, routed=p.comps.filter(c=>c.state==='delta').length, cleared=total-routed;
+  sysMsg('— '+p.name+' · '+total+' obligations apply · showing '+p.comps.length+' headline checks —');
+  await sleep(900);
+  for(const c of p.comps){if(me!==runToken)return;await processComp(c,me);}
+  if(me!==runToken)return;
+  const auto=routed===0;
+  const sum=`${total} obligations apply · ${cleared} cleared · ${routed} routed`;
+  sysMsg(auto?'auto-cleared — 0 routed to a person':'delta review — '+routed+' routed to an owner');
+  verdict.className='verdict show '+(auto?'cleared':'delta');
+  verdict.innerHTML=`<span class="vt">${auto?'AUTO_CLEARED':'DELTA_REVIEW'}</span><span class="vs">${sum}</span>`+
+    `<span style="${badge}">deterministic · 0 models</span><span style="${badge}">audit-chain ✓</span><span style="${badge}">reproducible · packet</span>`;
+}
+
+const runrow=document.getElementById('runrow');
+PRODUCTS.forEach((p,i)=>{const b=document.createElement('button');b.className='chipbtn';
+  b.textContent='▶ '+p.name;b.onclick=()=>{auto=false;run(i);};runrow.appendChild(b);});
+let auto=true,loopIdx=0;
+async function loop(){while(true){if(auto){await run(loopIdx);if(!auto)return;await sleep(3600);loopIdx=(loopIdx+1)%PRODUCTS.length;}else{await sleep(900);}}}
+run(0).then(()=>{loopIdx=1;setTimeout(loop,3200);});
+</script>
+</body>
+</html>

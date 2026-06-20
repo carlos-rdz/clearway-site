@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Product — Clearway Agents</title>
+<meta name="description" content="How Clearway Agents clears a product: decompose into components, retrieve each component's controlling obligation, match it to an approved control, decide, and record — auto-clearing what's covered and routing only the genuinely new to a person." />
+<link rel="canonical" href="https://clearwayagents.ai/product.html" />
+<meta property="og:title" content="Product — Clearway Agents" />
+<meta property="og:description" content="From product spec to cleared, with a citation on every determination." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://clearwayagents.ai/product.html" />
+<meta property="og:image" content="https://clearwayagents.ai/og.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%238b8cff'/><rect x='9' y='9' width='14' height='14' rx='4' fill='%2334d39a'/></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav><div class="wrap nav">
+  <a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a>
+  <div class="navlinks">
+    <a href="product.html">Product</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="security.html">Security</a>
+    <a href="docs.html">Docs</a>
+    <a href="company.html">Company</a>
+    <a href="pricing.html">Pricing</a>
+  </div>
+  <a class="btn primary" href="mailto:hello@clearwayagents.ai">Book a demo</a>
+</div></nav>
+
+<header class="wrap pagehead">
+  <div class="crumbs"><a href="index.html">Home</a> / Product</div>
+  <div class="kicker">Product</div>
+  <h1>From a product spec to cleared — with a citation on every determination.</h1>
+  <p class="lead">A team describes what they're shipping. Clearway decomposes it into components, finds the
+    obligations that govern each one, matches them to approved controls, and renders a decision. Components
+    already covered clear automatically; anything genuinely new is routed to the accountable function — and
+    once reviewed, it becomes a control that clears every product after it.</p>
+</header>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">The lifecycle</div>
+  <h2>One pass, six steps, fully recorded.</h2>
+  <div class="cards">
+    <div class="card"><h3>1 · Intake</h3><p>The product or change is decomposed into discrete components — onboarding, disclosures, fees, data handling, a funds-movement path, a model — each with its jurisdictions.</p></div>
+    <div class="card"><h3>2 · Retrieve</h3><p>For each component, the applicable obligations are pulled from a versioned catalog of the source law — at clause granularity, not document granularity.</p></div>
+    <div class="card"><h3>3 · Match</h3><p>Each component is matched against an approved control that already satisfies its obligation, with the control's parameters checked against the product's.</p></div>
+    <div class="card"><h3>4 · Decide</h3><p>Policy-as-code evaluates the match. Covered components clear; a component with no approved control — or one outside a control's parameters — becomes a delta.</p></div>
+    <div class="card"><h3>5 · Route</h3><p>Deltas go to the accountable function (Compliance, Legal, Model Risk…), narrowed to exactly what's new. Everything else is already cleared.</p></div>
+    <div class="card"><h3>6 · Record</h3><p>The determination, its cited controls, and the catalog version are appended to a tamper-evident, hash-chained ledger — and packaged as an examiner packet that reproduces the decision exactly, later.</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Two outcomes</div>
+  <h2>Auto-clear what's covered. Escalate only the genuinely new.</h2>
+  <div class="flow">
+    <div class="fbox">New product or change<small>components · jurisdictions</small></div>
+    <div class="far">→</div>
+    <div class="fbox lit">Clearway<small>map each component to its obligation &amp; approved control</small></div>
+    <div class="far">→</div>
+    <div class="fsplit">
+      <div class="fbox ok">Cleared automatically<small>matches an approved control — cited, logged, reproducible</small></div>
+      <div class="fbox warn">Routed to a person<small>no approved control — the exception, narrowed to the delta</small></div>
+    </div>
+  </div>
+  <div class="note">The decision is <b>deterministic</b>: it is matching and policy evaluation, not a model's judgment.
+    That is what makes auto-clearance defensible — every cleared component points at the clause and control that cleared it.</div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">The agents</div>
+  <h2>A small team of roles, each with one job.</h2>
+  <p class="lead">The agents do the analyst work that today consumes the review cycle. They operate on the knowledge
+    base and the routing — never on the live decision itself, which stays deterministic.</p>
+  <div class="cards">
+    <div class="card"><h3>Intake</h3><p>Decomposes a product into components and identifies the jurisdictions and data each one touches.</p></div>
+    <div class="card"><h3>Research</h3><p>Retrieves the controlling obligations for each component from the catalog, at clause granularity.</p></div>
+    <div class="card"><h3>Controls</h3><p>Matches each component to an approved control and checks the product's parameters against the control's.</p></div>
+    <div class="card"><h3>Compliance</h3><p>Applies policy-as-code; flags any component with no approved control or one outside its blessed range.</p></div>
+    <div class="card"><h3>Risk</h3><p>Triages deltas — drafts the control that would cover a novel component and routes it to the accountable function.</p></div>
+    <div class="card"><h3>Record</h3><p>Writes the determination, citations, and catalog version to the append-only audit log.</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">The flywheel</div>
+  <h2>A control is reviewed once, then applies to every later product.</h2>
+  <p class="lead">The escape hatch — routing a novel component to a person — is also how the system gets stronger.
+    Each ratified control widens the set of products that clear automatically.</p>
+  <div class="fly">
+    <div class="fcard"><div class="fv">catalog v2026-06-01</div><div class="fb">Cross-border BNPL · US+MX</div>
+      <div style="color:var(--amber);font-weight:700;font-size:12.5px">2 obligations need a control</div>
+      <div style="color:var(--muted);font-size:12px;margin-top:6px">AI underwriting (SR 11-7) → Model Risk; MX remittance (Reg E §1005.30 + MTL) → Legal.</div></div>
+    <div class="arrow">→<small>reviewed once, added to catalog</small></div>
+    <div class="fcard"><div class="fv">catalog v2026-06-15</div><div class="fb">the next US+MX product</div>
+      <div style="color:var(--green);font-weight:700;font-size:12.5px">matches the existing controls</div>
+      <div style="color:var(--muted);font-size:12px;margin-top:6px">The validation and the corridor control are now in the catalog and apply automatically.</div></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">What clears today</div>
+  <h2>Four product types, end to end — every obligation cited to real law.</h2>
+  <p class="lead">These aren't mockups. Each clears against a catalog built from the source CFR/USC, with the
+    determination reproducible from its pinned version.</p>
+  <div class="cards">
+    <div class="card"><h3>Credit card · US</h3><p>CIP, OFAC, Reg Z disclosures, ECOA/Reg B adverse action, FCRA, MLA, GLBA safeguards.</p></div>
+    <div class="card"><h3>BNPL · US</h3><p>Reg Z applicability via finance-charge <em>or</em> &gt;4-installment triggers, plus MLA/SCRA where they attach.</p></div>
+    <div class="card"><h3>Money movement · US (MSB)</h3><p>FinCEN MSB rules, the Travel Rule, remittance transfers (Reg E §1005.30), and prepaid/stored-value.</p></div>
+    <div class="card"><h3>Deposit account · US</h3><p>Reg DD, Reg CC, Reg E including overdraft opt-in, and FDIC Part 328 signage/advertising.</p></div>
+  </div>
+  <div class="note">The same engine takes a new product type by adding its catalog slice — built by the agents,
+    ratified by a person, recall-checked before it can clear anything.</div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Delivery surface</div>
+  <h2>Clearance is a tool call — and a webhook, and a packet.</h2>
+  <p class="lead">Clearway exposes the clearance as an API and an MCP tool, pushes deltas to your systems, and
+    hands an examiner the evidence. <a href="docs.html" style="color:var(--cyan)">See the API →</a></p>
+  <div class="cards">
+    <div class="card"><h3>API &amp; MCP</h3><p>A versioned <code>/v1</code> REST surface with OpenAPI, and an MCP <code>clear()</code> tool so an agent can clear a product directly.</p></div>
+    <div class="card"><h3>Signed webhooks &amp; events</h3><p>HMAC-signed delta webhooks (SSRF/DNS-rebind-guarded) and an event feed, so a routed exception lands in your queue the moment it's found.</p></div>
+    <div class="card"><h3>Examiner packet</h3><p>Obligation → citation → source-law link → control → status, with a recall attestation and an audit-chain check — the document review asks for.</p></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">Where it fits</div>
+  <h2>Reads from the rails, writes to the system of record.</h2>
+  <p class="lead">Clearway is built to integrate with the systems a product already runs on — reading what the product is and writing
+    the cleared authorization and its citations back. One integration per rail. <a href="architecture.html" style="color:var(--cyan)">See the architecture →</a></p>
+  <div class="rails">
+    <div class="rail"><div class="rt">Sponsor banks</div><div class="rd">program oversight</div></div>
+    <div class="rail"><div class="rt">BaaS</div><div class="rd">Unit · Lithic · TP</div></div>
+    <div class="rail"><div class="rt">Processors</div><div class="rd">Marqeta · Galileo</div></div>
+    <div class="rail"><div class="rt">Networks</div><div class="rd">Visa · MC · Amex</div></div>
+    <div class="rail"><div class="rt">KYC / AML</div><div class="rd">Persona · Alloy</div></div>
+  </div>
+  <div class="cta-band">
+    <h2>See it clear your product</h2>
+    <p>We'll run a clearance against your product profile, with every component cited to its controlling obligation.</p>
+    <a class="btn primary" href="mailto:hello@clearwayagents.ai">Book a demo</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="footgrid">
+    <div class="fcol"><a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a><p>Automated regulatory clearance for any product or change.</p></div>
+    <div class="fcol"><h5>Product</h5><a href="product.html">How it works</a><a href="architecture.html">Architecture</a><a href="docs.html">Docs</a><a href="security.html">Security</a><a href="pricing.html">Pricing</a></div>
+    <div class="fcol"><h5>Company</h5><a href="company.html">About</a><a href="mailto:hello@clearwayagents.ai">Contact</a></div>
+    <div class="fcol"><h5>Legal</h5><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="dpa.html">DPA</a><a href="https://github.com/carlos-rdz/clearway-demo">GitHub</a></div>
+  </div>
+  <div class="footbar"><span>© 2026 Clearway Agents</span><span>Clearway Agents provides software tooling, not legal advice.</span></div>
+</footer>
+</body>
+</html>
