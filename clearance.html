@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Clearway Agents — see the cited clearance dossier for US, UK & EU</title>
+<meta name="description" content="Pick the markets you're expanding into and see the per-obligation clearance dossier a consumer credit card needs for the US, UK, and EU — every verdict linked to the binding law, the escalations a human owns, and the gaps with drafted controls." />
+<link rel="canonical" href="https://clearwayagents.ai/clearance.html" />
+<meta property="og:title" content="The clearance dossier your regulator gets — cited to the actual law" />
+<meta property="og:description" content="Per-obligation clearance for a consumer credit card across the US, UK, and EU — every verdict linked to the binding statute. Weeks of committee per market, in minutes." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://clearwayagents.ai/clearance.html" />
+<meta property="og:image" content="https://clearwayagents.ai/og.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%238b8cff'/><rect x='9' y='9' width='14' height='14' rx='4' fill='%2334d39a'/></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .picker{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
+  .lockchip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;border:1px solid var(--border);background:var(--panel2);border-radius:8px;padding:8px 12px;color:var(--muted)}
+  .lockchip .mono{color:var(--text)}
+  .toggle{font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--panel);border-radius:9px;padding:8px 14px;color:var(--muted);transition:.15s;display:inline-flex;gap:8px;align-items:center}
+  .toggle:hover{border-color:rgba(255,255,255,.22)}
+  .toggle .tk{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+  .toggle.on{color:var(--text);border-color:rgba(139,140,255,.5);background:var(--violet-dim)}
+  .toggle.on .tk{background:var(--green)}
+  .stream{display:flex;flex-direction:column;gap:18px;margin-top:24px}
+  .dossier{border:1px solid var(--border);background:linear-gradient(180deg,var(--panel),var(--panel2));border-radius:16px;padding:18px 18px 16px;box-shadow:0 30px 80px -50px rgba(0,0,0,.9);animation:fadeIn .35s both}
+  .dsh{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .dsh .mkt{font-size:16px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .dsh .mkt .pt{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--faint);font-weight:500}
+  .vpill{font-size:11px;font-weight:800;letter-spacing:.03em;border-radius:20px;padding:4px 11px;border:1px solid rgba(251,191,60,.45);background:var(--amber-dim);color:var(--amber)}
+  .dstat{display:flex;gap:20px;flex-wrap:wrap;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:14px 0;padding:12px 0}
+  .dstat div{font-size:11px;color:var(--muted)}
+  .dstat b{display:block;color:var(--text);font-size:19px;font-weight:800;letter-spacing:-.01em}
+  .dstat .e b{color:var(--amber)} .dstat .c b{color:var(--violet)}
+  .grouplbl{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin:6px 0 2px}
+  .drow{display:grid;grid-template-columns:128px 1fr auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+  .drow:last-child{border-bottom:0}
+  .flag{font-size:9.5px;font-weight:700;letter-spacing:.03em;border-radius:6px;padding:3px 8px;text-align:center;white-space:nowrap}
+  .flag.clear{color:var(--green);background:var(--green-dim);border:1px solid rgba(52,211,154,.3)}
+  .flag.escalate{color:var(--amber);background:var(--amber-dim);border:1px solid rgba(251,191,60,.35)}
+  .flag.gap{color:var(--amber);background:transparent;border:1px solid rgba(251,191,60,.35)}
+  .flag.contested{color:var(--pink);background:var(--pink-dim);border:1px solid rgba(244,121,158,.4)}
+  .drow .oid{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--text)}
+  .drow .nt{font-size:12.5px;color:var(--muted)}
+  .drow .cl{font-family:"JetBrains Mono",monospace;font-size:11px;text-align:right;white-space:nowrap}
+  .drow a.cl{color:var(--cyan);border-bottom:1px solid rgba(63,208,230,.3)}
+  .drow span.cl{color:var(--faint)}
+  .more{font-size:11.5px;color:var(--faint);font-family:"JetBrains Mono",monospace;padding:9px 0 2px}
+  .pilotbar{position:sticky;bottom:0;z-index:40;backdrop-filter:blur(12px);background:rgba(8,11,17,.86);border-top:1px solid var(--border);padding:11px 0}
+  .pilotbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .pilotbar .math{font-size:13px;color:var(--muted)} .pilotbar .math b{color:var(--text)}
+  .proof{margin-top:22px;border:1px solid rgba(244,121,158,.35);background:rgba(244,121,158,.06);border-radius:12px;padding:13px 15px}
+  .proof .pl{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--pink);margin-bottom:5px}
+  .proof .px{font-size:13.5px;color:var(--text)}.proof .px b{color:var(--pink)}
+  .proof .pc{font-size:11px;color:var(--muted);font-family:"JetBrains Mono",monospace;margin-top:5px}
+  .proof .pc a{color:var(--cyan)}
+  @media(max-width:760px){
+    .drow{grid-template-columns:96px 1fr;gap:8px}
+    /* citation drops to its own full-width line and WRAPS — nowrap + a fixed indent under
+       body{overflow-x:hidden} would silently clip the longest EU/UK cites on a phone. */
+    .drow .cl{grid-column:1 / -1;text-align:left;margin-top:2px;white-space:normal;overflow-wrap:anywhere}
+    .pilotbar .math{font-size:11.5px}
+  }
+</style>
+</head>
+<body>
+
+<nav><div class="wrap nav">
+  <a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a>
+  <div class="navlinks">
+    <a href="clearance.html">Clearance</a>
+    <a href="product.html">Product</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="security.html">Security</a>
+    <a href="docs.html">Docs</a>
+    <a href="pricing.html">Pricing</a>
+  </div>
+  <a class="btn primary" href="mailto:hello@clearwayagents.ai?subject=Clearway%20pilot%20%E2%80%94%20market-expansion%20clearance">Book a pilot</a>
+</div></nav>
+
+<header class="wrap hero">
+  <div class="kicker">Market-expansion clearance</div>
+  <h1>The clearance dossier your regulator gets. <span class="g">Cited to the actual law.</span></h1>
+  <p class="sub">Pick the markets you're expanding into. See the per-obligation verdicts a consumer credit card needs
+    to enter the <b>US</b>, <b>UK</b>, and <b>EU</b> — each one linked to the binding statute, the escalations a
+    person must own, and the gaps we've already drafted controls for. Weeks of committee and outside counsel per
+    market, produced in minutes.</p>
+  <div class="cta-row">
+    <a class="btn primary" href="mailto:hello@clearwayagents.ai?subject=Clearway%20pilot%20%E2%80%94%20market-expansion%20clearance">Book a pilot</a>
+    <a class="btn" href="#dossiers">See the dossiers ↓</a>
+  </div>
+  <div class="proof">
+    <div class="pl">The catch a rubber-stamp misses</div>
+    <div class="px">Entering the EU, <b>EU-GDPR-TRANS</b> (the Art. 13 transparency notice) was cleared deterministically —
+      then an adversarial challenger <b>refuted that clear and escalated it to a human</b>. The binding decision stays
+      deterministic and a person owns the call; the challenger can only ever <i>add</i> a review, never make one.</div>
+    <div class="pc">Reg (EU) 2016/679 Art. 13 · <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" target="_blank" rel="noopener">verify on eur-lex ↗</a></div>
+  </div>
+</header>
+
+<section class="band" id="dossiers" style="padding-top:34px"><div class="wrap">
+  <div class="eyebrow">Run a clearance</div>
+  <h2>One cited dossier per market. Audit any line yourself.</h2>
+  <p class="lead">This is the artifact a regulator receives — obligation → verdict → the binding citation, reproducible
+    from a pinned catalog version. Toggle a market to add or remove its dossier; click any citation to read the law.</p>
+
+  <div class="picker">
+    <span class="lockchip">🔒 <span class="mono">credit_card</span> · Consumer credit card (sample)</span>
+    <button class="toggle on" data-mkt="US" aria-pressed="true"><span class="tk"></span>🇺🇸 United States</button>
+    <button class="toggle on" data-mkt="UK" aria-pressed="true"><span class="tk"></span>🇬🇧 United Kingdom</button>
+    <button class="toggle on" data-mkt="EU" aria-pressed="true"><span class="tk"></span>🇪🇺 European Union</button>
+  </div>
+
+  <div class="stream" id="stream"></div>
+
+  <div class="note" style="margin-top:18px">A line marked <b>escalation</b> is routed to the accountable person to own;
+    a <b>gap</b> means no control exists yet, so the agents drafted one for a human to ratify before it can ever clear
+    anything; <b>contested</b> means the adversarial challenger refuted a clear. The binding cleared/routed decision is
+    deterministic — <b>no model participates</b>. <span style="color:var(--faint)">Clearway provides software tooling,
+    not legal advice; this sample is illustrative.</span></div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="eyebrow">How to read it</div>
+  <h2>A deterministic decision. Agents that only draft. A human who ratifies.</h2>
+  <div class="trust">
+    <div class="tc"><div class="th">The decision is deterministic</div><div class="td">The binding cleared/routed result is a pure function over the product and a pinned, cited catalog version. No model touches it, and the same inputs reproduce the same determination for an examiner.</div></div>
+    <div class="tc"><div class="th">Agents only draft</div><div class="td">Where an obligation has no control, the knowledge-plane agents draft a cited one — but it does nothing until a person ratifies it into the catalog, gated on a recall check so coverage can't regress.</div></div>
+    <div class="tc"><div class="th">A challenger can refute</div><div class="td">An adversarial reviewer stress-tests every clear across distinct lenses. If it refutes one — like the EU Art. 13 row above — it escalates to a human. It adds caution; it never makes the call.</div></div>
+  </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+  <div class="cta-band">
+    <h2>See this for your real product.</h2>
+    <p>A pilot runs your actual product and target markets through the board and hands you the cited dossier — the
+      escalations to own, the gaps with drafted controls, and an examiner-ready packet — in an afternoon, not a quarter.</p>
+    <a class="btn primary" href="mailto:hello@clearwayagents.ai?subject=Clearway%20pilot%20%E2%80%94%20market-expansion%20clearance">Book a pilot</a>
+    <div class="disc" style="margin-left:auto;margin-right:auto">Clearway provides software tooling, not legal advice. Sample dossiers are illustrative; figures are representative of a typical multi-week, multi-reviewer launch review per market.</div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="footgrid">
+    <div class="fcol"><a class="brand" href="index.html"><span class="mark"></span> Clearway Agents</a><p>Automated regulatory clearance for any product or change.</p></div>
+    <div class="fcol"><h5>Product</h5><a href="clearance.html">Clearance</a><a href="product.html">How it works</a><a href="architecture.html">Architecture</a><a href="docs.html">Docs</a><a href="security.html">Security</a><a href="pricing.html">Pricing</a></div>
+    <div class="fcol"><h5>Company</h5><a href="company.html">About</a><a href="mailto:hello@clearwayagents.ai">Contact</a></div>
+    <div class="fcol"><h5>Legal</h5><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="dpa.html">DPA</a><a href="https://github.com/carlos-rdz/clearway-demo">GitHub</a></div>
+  </div>
+  <div class="footbar"><span>© 2026 Clearway Agents</span><span>Clearway Agents provides software tooling, not legal advice.</span></div>
+</footer>
+
+<div class="pilotbar"><div class="wrap">
+  <div class="math" id="math">—</div>
+  <a class="btn primary" href="mailto:hello@clearwayagents.ai?subject=Clearway%20pilot%20%E2%80%94%20market-expansion%20clearance">Book a pilot</a>
+</div></div>
+
+<script>
+// Three SANITIZED sample dossiers (consumer credit card), all DELTA_REVIEW. Only a curated subset of
+// rows renders per market — escalations + gaps(drafted) + contested + a few representative clears,
+// with a "+N more cleared" rollup. The full catalog lives with the PRODUCT (the private engine), not here.
+const MARKETS = {
+ US:{name:'United States',flag:'🇺🇸',pt:'credit_card_us',apply:25,cleared:20,routed:2,esc:3,gaps:2,drafted:2,weeks:3,
+  rows:[
+   {st:'escalate',id:'CIP',nt:'Customer identification program',cite:'31 CFR 1020.220',url:'https://www.ecfr.gov/current/title-31/part-1020/section-1020.220'},
+   {st:'escalate',id:'OFAC',nt:'Sanctions screening',cite:'31 CFR Ch. V',url:''},
+   {st:'escalate',id:'SAR',nt:'Suspicious activity reporting',cite:'31 CFR 1020.320',url:'https://www.ecfr.gov/current/title-31/part-1020/section-1020.320'},
+   {st:'gap',id:'GLBA-SAFEGUARDS',nt:'Information-security program — control drafted',cite:'16 CFR 314',url:'https://www.ecfr.gov/current/title-16/part-314'},
+   {st:'gap',id:'STATE-USURY',nt:'State rate / usury caps — control drafted',cite:'varies by state',url:''},
+   {st:'clear',id:'REGZ-OPEN',nt:'Account-opening cost disclosures',cite:'12 CFR 1026.6(b)',url:'https://www.ecfr.gov/current/title-12/part-1026/section-1026.6'},
+   {st:'clear',id:'FCRA-RBP',nt:'Risk-based pricing notice',cite:'12 CFR 1022.72',url:'https://www.ecfr.gov/current/title-12/part-1022/section-1022.72'},
+   {st:'clear',id:'ECOA-AA',nt:'Adverse-action notice',cite:'12 CFR 1002.9',url:'https://www.ecfr.gov/current/title-12/part-1002/section-1002.9'},
+   {st:'clear',id:'UDAAP',nt:'Unfair, deceptive or abusive acts',cite:'12 USC 5531',url:'https://www.law.cornell.edu/uscode/text/12/5531'},
+   {st:'clear',id:'MLA',nt:'Military Lending Act protections',cite:'32 CFR 232',url:'https://www.ecfr.gov/current/title-32/part-232'},
+   {st:'clear',id:'GLBA-PRIVACY',nt:'Privacy notice & opt-out',cite:'12 CFR 1016',url:'https://www.ecfr.gov/current/title-12/part-1016'}]},
+ UK:{name:'United Kingdom',flag:'🇬🇧',pt:'credit_card_uk',apply:31,cleared:27,routed:3,esc:2,gaps:2,drafted:2,weeks:3,
+  rows:[
+   {st:'escalate',id:'UK-EQUALITY',nt:'Non-discrimination in services',cite:'Equality Act 2010 s.29',url:'https://www.legislation.gov.uk/ukpga/2010/15/section/29'},
+   {st:'escalate',id:'UK-PRECONTRACT',nt:'Statutory pre-contract disclosure',cite:'CCA 1974 s.55',url:'https://www.legislation.gov.uk/ukpga/1974/39/section/55'},
+   {st:'gap',id:'UK-S75',nt:'Connected-lender liability — control drafted',cite:'CCA 1974 s.75',url:'https://www.legislation.gov.uk/ukpga/1974/39/section/75'},
+   {st:'gap',id:'UK-PERSISTENT-DEBT',nt:'Persistent-debt intervention — control drafted',cite:'CONC 6.7.27R',url:'https://www.handbook.fca.org.uk/handbook/CONC/6/7.html'},
+   {st:'clear',id:'UK-CWA',nt:'Creditworthiness assessment',cite:'CONC 5.2A.4R',url:'https://www.handbook.fca.org.uk/handbook/CONC/5/2A.html'},
+   {st:'clear',id:'UK-CONSUMER-DUTY',nt:'Consumer Duty (good outcomes)',cite:'PRIN 2A',url:'https://www.handbook.fca.org.uk/handbook/PRIN/2A/'},
+   {st:'clear',id:'UK-CDD',nt:'Customer due diligence',cite:'MLR 2017 reg 27',url:'https://www.legislation.gov.uk/uksi/2017/692/regulation/27'},
+   {st:'clear',id:'UK-WITHDRAW',nt:'14-day right of withdrawal',cite:'CCA 1974 s.66A',url:'https://www.legislation.gov.uk/ukpga/1974/39/section/66A'}]},
+ EU:{name:'European Union',flag:'🇪🇺',pt:'credit_card_eu',apply:28,cleared:24,routed:3,esc:1,gaps:3,drafted:3,weeks:3,
+  rows:[
+   {st:'contested',id:'EU-GDPR-TRANS',nt:'Transparency notice — challenger refuted a clear → escalated',cite:'Reg (EU) 2016/679 Art. 13',url:'https://eur-lex.europa.eu/eli/reg/2016/679/oj'},
+   {st:'gap',id:'EU-CWA-AUTO',nt:'Human review of automated creditworthiness — control drafted',cite:'CCD2 art. 18',url:'https://eur-lex.europa.eu/eli/dir/2023/2225/oj'},
+   {st:'gap',id:'EU-IFR-CAP',nt:'Interchange fee cap (0.3%) — control drafted',cite:'Reg (EU) 2015/751 art. 4',url:'https://eur-lex.europa.eu/eli/reg/2015/751/oj'},
+   {st:'gap',id:'EU-EQUALITY',nt:'No sex discrimination in services — control drafted',cite:'Dir 2004/113/EC art. 4',url:'https://eur-lex.europa.eu/eli/dir/2004/113/oj'},
+   {st:'clear',id:'EU-SECCI',nt:'Pre-contract information (SECCI)',cite:'CCD2 art. 10',url:'https://eur-lex.europa.eu/eli/dir/2023/2225/oj'},
+   {st:'clear',id:'EU-PSD2-SCA',nt:'Strong customer authentication',cite:'Dir (EU) 2015/2366 art. 97',url:'https://eur-lex.europa.eu/eli/dir/2015/2366/oj'},
+   {st:'clear',id:'EU-CDD',nt:'Customer due diligence',cite:'Dir (EU) 2015/849 art. 13',url:'https://eur-lex.europa.eu/eli/dir/2015/849/oj'}]}
+};
+const ORDER=['US','UK','EU'];
+const LABEL={escalate:'ESCALATION',gap:'GAP · DRAFTED',contested:'CONTESTED',clear:'CLEARED'};
+const on={US:true,UK:true,EU:true};
+
+function cell(r){
+  const cl = r.url ? `<a class="cl" href="${r.url}" target="_blank" rel="noopener">${r.cite} ↗</a>`
+                   : `<span class="cl">${r.cite}</span>`;
+  return `<div class="drow"><span class="flag ${r.st}">${LABEL[r.st]}</span>`+
+         `<span><span class="oid">${r.id}</span> &middot; <span class="nt">${r.nt}</span></span>${cl}</div>`;
+}
+function card(key){
+  const m=MARKETS[key];
+  const attn=m.rows.filter(r=>r.st!=='clear'), clears=m.rows.filter(r=>r.st==='clear');
+  const moreClears=m.cleared-clears.length;
+  return `<div class="dossier">
+    <div class="dsh">
+      <div class="mkt">${m.flag} ${m.name} <span class="pt">${m.pt}</span></div>
+      <span class="vpill">DELTA_REVIEW</span>
+    </div>
+    <div class="dstat">
+      <div><b>${m.apply}</b>obligations apply</div>
+      <div class="c"><b>${m.cleared}</b>cleared by the board</div>
+      <div class="e"><b>${m.esc}</b>escalations</div>
+      <div class="e"><b>${m.gaps}</b>gaps · ${m.drafted} drafted</div>
+    </div>
+    <div class="grouplbl">Needs a person</div>
+    ${attn.map(cell).join('')}
+    <div class="grouplbl" style="margin-top:12px">Cleared automatically — cited &amp; logged (sample)</div>
+    ${clears.map(cell).join('')}
+    <div class="more">+ ${moreClears} more obligations cleared in the ${key} dossier</div>
+  </div>`;
+}
+function render(){
+  const sel=ORDER.filter(k=>on[k]);
+  document.getElementById('stream').innerHTML = sel.length
+    ? sel.map(card).join('')
+    : `<div class="note">Select at least one market to see its clearance dossier.</div>`;
+  const weeks=sel.reduce((a,k)=>a+MARKETS[k].weeks,0);
+  document.getElementById('math').innerHTML = sel.length
+    ? `<b>${sel.length} market${sel.length>1?'s':''}</b> · typically <b>~${weeks} weeks</b> of committee + outside counsel → <b>minutes</b>`
+    : 'Select a market to see the time it replaces';
+}
+document.querySelectorAll('.toggle').forEach(b=>b.addEventListener('click',()=>{
+  const k=b.dataset.mkt; on[k]=!on[k];
+  b.classList.toggle('on',on[k]); b.setAttribute('aria-pressed',on[k]);
+  render();
+}));
+render();
+</script>
+</body>
+</html>
